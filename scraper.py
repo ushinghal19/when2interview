@@ -1,8 +1,15 @@
 from selenium import webdriver
 import time
+#first get the when2meet link from the user
 
+#ask "do you want me to set one meeting for everyone to attend,
+# or do you want me to set a meeting with 2 cssu members and a
+# non cssu members, for each non cssu member"
+
+#ask how long each meeting should be
 #Setting up the webdriver
-driver = webdriver.Chrome()
+driver = webdriver.Chrome('C:/Users/eklut/.wdm/drivers/chromedriver/win32/84'
+                          '.0.4147.30/chromedriver.exe')
 
 #Getting the names of the CSSU execs:
 execs = ['Alex Kozin']
