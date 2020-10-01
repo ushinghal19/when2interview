@@ -1,8 +1,12 @@
 from selenium import webdriver
 import time
+from selenium.webdriver import ActionChains
 
 #Setting up the webdriver
 driver = webdriver.Chrome()
+
+#Setting up actions
+actions = ActionChains(driver)
 
 #Getting the names of the CSSU execs:
 execs = ['Alex Kozin']
@@ -14,7 +18,11 @@ applicants = []
 link = "https://www.when2meet.com/?9397833-x1ZoE"
 driver.get(link)
 
-box1 = driver.find_element_by_id("GroupTime1595246400")
+time.sleep(3)
 
-hover = driver.move_to_element(box1)
-hover.perform()
+box1 = driver.find_element_by_id("GroupTime1595246400")
+actions.move_to_element(box1).build().perform()
+
+# applicants = driver.find_element_by_id("Available").text
+# print(applicants)
+print("test")
