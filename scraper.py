@@ -32,16 +32,20 @@ list_of_rows = grid.find_elements_by_xpath(".//div[@style='font-size:0px;vertica
 
 python_grid = []
 
+
+
 for row in list_of_rows:
     boxes = []
     boxes.extend(row.find_elements_by_tag_name("div"))
     python_grid.append(boxes)
 
+print('Done')
 times = {}
+
 
 for row in python_grid:
     for box in row:
-        actions.move_to_element_with_offset(box, 0, 0).click().perform()
+        box.click()
         date = driver.find_element_by_id("AvailableDate")
         available = driver.find_element_by_id("Available")
         unavailable = driver.find_element_by_id("Unavailable")
