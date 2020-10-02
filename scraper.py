@@ -50,7 +50,6 @@ for row in python_grid:
         print("unavailable = " + unavailable.text)
 
 
-
 # for row in grid:
 #     list_of_boxes = row.find_elements_by_tag_name("div")    
 #     python_grid.append(list_of_boxes)
