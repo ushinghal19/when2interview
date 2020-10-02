@@ -9,8 +9,7 @@ from timeBox import timeBox
 
 #ask how long each meeting should be
 #Setting up the webdriver
-driver = webdriver.Chrome('C:/Users/eklut/.wdm/drivers/chromedriver/win32/84'
-                          '.0.4147.30/chromedriver.exe')
+driver = webdriver.Chrome('')
 
 #Setting up actions
 actions = ActionChains(driver)
