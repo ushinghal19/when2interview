@@ -3,8 +3,14 @@ import time
 from selenium.webdriver import ActionChains
 from timeBox import timeBox
 
+#ask "do you want me to set one meeting for everyone to attend,
+# or do you want me to set a meeting with 2 cssu members and a
+# non cssu members, for each non cssu member"
+
+#ask how long each meeting should be
 #Setting up the webdriver
-driver = webdriver.Chrome()
+driver = webdriver.Chrome('C:/Users/eklut/.wdm/drivers/chromedriver/win32/84'
+                          '.0.4147.30/chromedriver.exe')
 
 #Setting up actions
 actions = ActionChains(driver)
@@ -28,11 +34,7 @@ time.sleep(3)
 grid = driver.find_element_by_id("GroupGridSlots")
 list_of_rows = grid.find_elements_by_xpath(".//div[@style='font-size:0px;vertical-align:top;']")
 
-# print(list_of_rows)
-
 python_grid = []
-
-
 
 for row in list_of_rows:
     boxes = []
@@ -54,25 +56,4 @@ for row in python_grid:
         print("unavailable = " + unavailable.text)
 
 
-# for row in grid:
-#     list_of_boxes = row.find_elements_by_tag_name("div")    
-#     python_grid.append(list_of_boxes)
 
-# print(len(python_grid))
-
-#actions.move_to_element_with_offset(box1, 0, 0).click().perform()
-
-# date = driver.find_element_by_id("AvailableDate")
-# available = driver.find_element_by_id("Available")
-# unavailable = driver.find_element_by_id("Unavailable")
-
-# t1 = timeBox(date=date.text, available=available.text, unavailable=unavailable.text, applicants=applicants, execs=execs)
-
-# print(date.text)
-# print(available.text)
-# print(unavailable.text)
-
-# print()
-# print(date.text)
-# print(available.text)
-# print(unavailable.text)
