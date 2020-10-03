@@ -14,6 +14,9 @@ driver = webdriver.Chrome()
 #Setting up actions
 actions = ActionChains(driver)
 
+#Asking what sort of algorithm is required:
+
+
 #Getting the names of the CSSU execs:
 execs = ['Alex Kozin']
 
@@ -40,9 +43,7 @@ for row in list_of_rows:
     boxes.extend(row.find_elements_by_tag_name("div"))
     python_grid.append(boxes)
 
-print('Done')
 times = {}
-
 
 for row in python_grid:
     for box in row:
