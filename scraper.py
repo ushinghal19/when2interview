@@ -2,6 +2,9 @@ from selenium import webdriver
 import time
 from selenium.webdriver import ActionChains
 from timeBox import timeBox
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 #ask "do you want me to set one meeting for everyone to attend,
 # or do you want me to set a meeting with 2 cssu members and a
@@ -9,7 +12,7 @@ from timeBox import timeBox
 
 #ask how long each meeting should be
 #Setting up the webdriver
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(os.getenv('CHROME_DRIVER_PATH'))
 
 #Setting up actions
 actions = ActionChains(driver)

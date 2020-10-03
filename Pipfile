@@ -1,0 +1,17 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+python-dateutil = "*"
+selenium = "*"
+six = "*"
+urllib3 = "*"
+pipenv = "*"
+python-dotenv = "*"
+
+[requires]
+python_version = "3.8.5"
