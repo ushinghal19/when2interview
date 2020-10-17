@@ -1,2 +1,3 @@
 chromedriver.exe
 .env
+__pycache__/timeBox.cpython-38.pyc
