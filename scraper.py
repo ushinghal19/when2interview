@@ -1,30 +1,16 @@
 from selenium import webdriver
 import time
 from selenium.webdriver import ActionChains
-from timeBox import timeBox
+from TimeBox import TimeBox
 from dotenv import load_dotenv
 import os
 load_dotenv()
-
-#ask "do you want me to set one meeting for everyone to attend,
-# or do you want me to set a meeting with 2 cssu members and a
-# non cssu members, for each non cssu member"
-#ask how long each meeting should be
 
 #Setting up the webdriver
 driver = webdriver.Chrome(os.getenv('CHROME_DRIVER_PATH'))
 
 #Setting up actions
 actions = ActionChains(driver)
-
-#Asking what sort of algorithm is required:
-
-
-#Getting the names of the CSSU execs:
-execs = []
-
-#The names of the applicants:
-applicants = []
 
 #Getting the when2meet link
 link = "https://www.when2meet.com/?10117137-FRjsY"
@@ -46,23 +32,40 @@ for row in list_of_rows:
     boxes.extend(row.find_elements_by_tag_name("div"))
     python_grid.append(boxes)
 
-times = {}
+time_boxes = []
 
 for row in python_grid:
     for box in row:
+        # Moves to box
         box.click()
+
+        # Finds the date element
         date = driver.find_element_by_id("AvailableDate")
+
+        # Finds the available element
         available = driver.find_element_by_id("Available")
+
+        # Finds the unavailable element
         unavailable = driver.find_element_by_id("Unavailable")
+
+        # Makes the available into a list
         available = available.text.split("\n")
+
+        #Makes the unavailable into a list
         unavailable = unavailable.text.split("\n")
-        # print("date = " + date.text)
-        # print("available = " + str(available))
-        # print("unavailable = " + str(unavailable))
+
+        #Finds the people who are execs (Have CSSU in their name)
         available_execs = [person for person in available if "CSSU" in person]
+
         available_candidates = [person for person in available if not "CSSU" in person]
-        print("Execs = " + str(available_execs))
-        print("Candidates = " + str(available_candidates))
 
+        # print(date.text)
+        # print("Execs = " + str(available_execs))
+        # print("Candidates = " + str(available_candidates))
+        # print()
 
+        time_boxes.append(TimeBox(date.text, available_execs, available_candidates))
 
+print(time_boxes[0].date)
+print(time_boxes[0].execs)
+print(time_boxes[0].candidates)
