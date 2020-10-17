@@ -56,10 +56,13 @@ for row in python_grid:
         unavailable = driver.find_element_by_id("Unavailable")
         available = available.text.split("\n")
         unavailable = unavailable.text.split("\n")
-        print("date = " + date.text)
-        print("available = " + str(available))
-        print("unavailable = " + str(unavailable))
-
+        # print("date = " + date.text)
+        # print("available = " + str(available))
+        # print("unavailable = " + str(unavailable))
+        available_execs = [person for person in available if "CSSU" in person]
+        available_candidates = [person for person in available if not "CSSU" in person]
+        print("Execs = " + str(available_execs))
+        print("Candidates = " + str(available_candidates))
 
 
 
