@@ -2,6 +2,7 @@ from datetime import datetime
 from dateutil import parser
 
 parser.parse("Aug 28 1999 12:00AM")  # datetime.datetime(1999, 8, 28, 0, 0)
+print(parser.parse("Aug 28 1999 12:00AM"))
 
 class timeBox:
     """ Represents one box of time in the when2meet"""

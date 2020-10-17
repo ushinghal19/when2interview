@@ -9,8 +9,8 @@ load_dotenv()
 #ask "do you want me to set one meeting for everyone to attend,
 # or do you want me to set a meeting with 2 cssu members and a
 # non cssu members, for each non cssu member"
-
 #ask how long each meeting should be
+
 #Setting up the webdriver
 driver = webdriver.Chrome(os.getenv('CHROME_DRIVER_PATH'))
 
@@ -21,13 +21,13 @@ actions = ActionChains(driver)
 
 
 #Getting the names of the CSSU execs:
-execs = ['Alex Kozin']
+execs = []
 
 #The names of the applicants:
 applicants = []
 
 #Getting the when2meet link
-link = "https://www.when2meet.com/?9397833-x1ZoE"
+link = "https://www.when2meet.com/?10117137-FRjsY"
 
 #Opening the site
 driver.get(link)
@@ -54,9 +54,12 @@ for row in python_grid:
         date = driver.find_element_by_id("AvailableDate")
         available = driver.find_element_by_id("Available")
         unavailable = driver.find_element_by_id("Unavailable")
+        available = available.text.split("\n")
+        unavailable = unavailable.text.split("\n")
         print("date = " + date.text)
-        print("available = " + available.text)
-        print("unavailable = " + unavailable.text)
+        print("available = " + str(available))
+        print("unavailable = " + str(unavailable))
+
 
 
 
