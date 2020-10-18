@@ -12,12 +12,13 @@ class Candidate:
     booked: bool
 
     def __init__(self, name):
+        self.name = name
         self.available_times = []
         self.interview = {}
         self.booked = False
 
     def bookInterview(self, executive, date):
-        self.interview[date = executive]
+        self.interview[date] = executive.name
         self.booked = True
     
     def addAvailable(self, date):

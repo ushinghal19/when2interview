@@ -105,13 +105,28 @@ def addPeopleToTimeBox(times, execs, candidates):
 
 addPeopleToTimeBox(times, execs, candidates)
 
+def bookInterview(candidate, execs, date):
+    minimum = 500
+    executive = None
+    for executives in execs:
+        if executives.num_interviews < minimum:
+            executive = executives
+    candidate.bookInterview(executive, date)
+    executive.bookInterview(candidate, date)
 
+def arrangeInterviews(times):
+    for time in times:
+        timebox = times[time]
+        if timebox.getNumCandidates() == 0 or timebox.getNumExecs() == 0:
+            continue
+        else:
+            for candidate in timebox.getCandidates():
+                if candidate.booked == False:
+                    bookInterview(candidate, timebox.getExecs(), timebox.date)
+                else:
+                    continue
 
+arrangeInterviews(times)
 
-
-
-
-for key in times:
-    print(str(times[key].date) + " = " + str(times[key].execs))
-    print()
-
+for candidate in candidates:
+    print(candidates[candidate].name + " " + str(candidates[candidate].interview))

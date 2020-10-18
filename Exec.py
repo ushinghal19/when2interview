@@ -8,18 +8,19 @@ class Exec:
 
     name:str
     available_times: List
-    interview_times: Dict
-    num_interviews
+    interviews: Dict
+    num_interviews: int
     # candidates: List[Candidate]
 
     def __init__(self, name):
         self.available_times = []
-        self.interview_times = {}
+        self.interviews = {}
         self.num_interviews = 0
+        self.name = name
 
     def bookInterview(self, candidate, date):
-        self.interview_times[date] = candidate
-        num_interviews += 1
+        self.interviews[date] = candidate
+        self.num_interviews += 1
     
     def addAvailable(self, date):
         self.available_times.append(date)
