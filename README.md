@@ -1,4 +1,4 @@
-# interview-planner
+# when2interview
 Arranges interviews by scraping when2meet.
 
 # Instructions
