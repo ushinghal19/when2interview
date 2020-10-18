@@ -1,6 +1,6 @@
 from selenium import webdriver
 import time
-from collections import OrderedDict 
+from collections import OrderedDict
 from datetime import datetime
 from dateutil import parser
 from selenium.webdriver import ActionChains
@@ -77,56 +77,56 @@ for row in python_grid:
         for person in available:
             if "CSSU" in person:
                 if person in execs:
-                    execs[person].addAvailable(parser.parse(date.text))
+                    execs[person].add_available(parser.parse(date.text))
                 else:
                     executive = Exec(person)
-                    executive.addAvailable(parser.parse(date.text))
+                    executive.add_available(parser.parse(date.text))
                     execs[person] = executive
 
             else:
                 if person in candidates:
-                    candidates[person].addAvailable(parser.parse(date.text))
+                    candidates[person].add_available(parser.parse(date.text))
                 else:
                     candidate = Candidate(person)
-                    candidate.addAvailable(parser.parse(date.text))
+                    candidate.add_available(parser.parse(date.text))
                     candidates[person] = candidate
 
         timebox = TimeBox(parser.parse(date.text))
         times[parser.parse(date.text)] = timebox
 
-def addPeopleToTimeBox(times, execs, candidates):
+def add_people_to_timebox(times, execs, candidates):
     for executive in execs:
         for available_time in execs[executive].available_times:
-            times[available_time].addExec(execs[executive])
+            times[available_time].add_exec(execs[executive])
 
     for candidate in candidates:
         for available_time in candidates[candidate].available_times:
-            times[available_time].addCandidate(candidates[candidate])
+            times[available_time].add_candidate(candidates[candidate])
 
-addPeopleToTimeBox(times, execs, candidates)
+add_people_to_timebox(times, execs, candidates)
 
-def bookInterview(candidate, execs, date):
+def book_interview(candidate, execs, date):
     minimum = 500
     executive = None
     for executives in execs:
         if executives.num_interviews < minimum:
             executive = executives
-    candidate.bookInterview(executive, date)
-    executive.bookInterview(candidate, date)
+    candidate.book_interview(executive, date)
+    executive.book_interview(candidate, date)
 
-def arrangeInterviews(times):
+def arrange_interviews(times):
     for time in times:
         timebox = times[time]
-        if timebox.getNumCandidates() == 0 or timebox.getNumExecs() == 0:
+        if timebox.get_num_candidates() == 0 or timebox.get_num_execs() == 0:
             continue
         else:
-            for candidate in timebox.getCandidates():
+            for candidate in timebox.get_candidates():
                 if candidate.booked == False:
-                    bookInterview(candidate, timebox.getExecs(), timebox.date)
+                    book_interview(candidate, timebox.get_execs(), timebox.date)
                 else:
                     continue
 
-arrangeInterviews(times)
+arrange_interviews(times)
 
 for candidate in candidates:
     print(candidates[candidate].name + " " + str(candidates[candidate].interview))

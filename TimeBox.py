@@ -18,22 +18,22 @@ class TimeBox:
         self.num_of_execs = 0
         self.num_of_candidates = 0
 
-    def addExec(self, executive):
+    def add_exec(self, executive):
         self.execs.append(executive)
         self.num_of_execs += 1
 
-    def addCandidate(self, candidate):
+    def add_candidate(self, candidate):
         self.candidates.append(candidate)
         self.num_of_candidates += 1
 
-    def getNumCandidates(self):
+    def get_num_candidates(self):
         return self.num_of_candidates
-    
-    def getNumExecs(self):
+
+    def get_num_execs(self):
         return self.num_of_execs
-    
-    def getCandidates(self):
+
+    def get_candidates(self):
         return self.candidates
-    
-    def getExecs(self):
+
+    def get_execs(self):
         return self.execs
