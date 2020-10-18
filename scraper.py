@@ -1,7 +1,11 @@
 from selenium import webdriver
 import time
+from datetime import datetime
+from dateutil import parser
 from selenium.webdriver import ActionChains
 from TimeBox import TimeBox
+from Candidate import Candidate
+from Exec import Exec
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -32,7 +36,14 @@ for row in list_of_rows:
     boxes.extend(row.find_elements_by_tag_name("div"))
     python_grid.append(boxes)
 
-time_boxes = []
+# time_boxes = []
+
+# Dictionary of exec objects
+execs = {}
+
+# Dictionary of candidate objects
+candidates = {}
+
 
 for row in python_grid:
     for box in row:
@@ -54,18 +65,36 @@ for row in python_grid:
         #Makes the unavailable into a list
         unavailable = unavailable.text.split("\n")
 
-        #Finds the people who are execs (Have CSSU in their name)
-        available_execs = [person for person in available if "CSSU" in person]
+        #Creating executives
+        for person in available:
+            if "CSSU" in person:
+                if person in execs:
+                    execs[person].addAvailable(parser.parse(date.text))
+                else:
+                    executive = Exec(person)
+                    executive.addAvailable(parser.parse(date.text))
+                    execs[person] = executive
+            else:
+                if person in candidates:
+                    candidates[person].addAvailable(parser.parse(date.text))
+                else:
+                    candidate = Candidate(person)
+                    candidate.addAvailable(parser.parse(date.text))
+                    candidates[person] = candidate
 
-        available_candidates = [person for person in available if not "CSSU" in person]
+print(execs)
+print(candidates)
 
-        # print(date.text)
-        # print("Execs = " + str(available_execs))
-        # print("Candidates = " + str(available_candidates))
-        # print()
 
-        time_boxes.append(TimeBox(date.text, available_execs, available_candidates))
+# def algorithm(time_boxes):
+#     for box in time_boxes:
+#         if box.num_of_candidates == 0:
+#             continue
+#         elif box.num_of_execs == 0:
+#             continue
+#         else:
+#             for candidate in box.candidates:
+#                 if candidate.booked:
+#                     continue
+#                 else:
 
-print(time_boxes[0].date)
-print(time_boxes[0].execs)
-print(time_boxes[0].candidates)
