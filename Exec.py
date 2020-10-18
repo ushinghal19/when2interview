@@ -7,21 +7,19 @@ class Exec:
     """ Represents a single exec """
 
     name:str
-    available_times: List[datetime]
-    interview_time: datetime
-    booked: bool
+    available_times: List
+    interview_times: Dict
+    num_interviews
     # candidates: List[Candidate]
 
     def __init__(self, name):
         self.available_times = []
-        self.interview_time = None
-        self.booked = False
-        self.candidates = []
+        self.interview_times = {}
+        self.num_interviews = 0
 
-    def bookInterview(self, exec, date):
-        self.execs.append(exec)
-        self.meeting_time = date
-        self.booked = True
+    def bookInterview(self, candidate, date):
+        self.interview_times[date] = candidate
+        num_interviews += 1
     
     def addAvailable(self, date):
         self.available_times.append(date)

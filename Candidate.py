@@ -7,20 +7,17 @@ class Candidate:
     """ Represents a single candidate """
 
     name: str
-    available_times: List[datetime]
-    interview_time: datetime
+    available_times: List
+    interview: Dict
     booked: bool
-    # execs: List[Exec]
 
     def __init__(self, name):
         self.available_times = []
-        self.interview_time = None
+        self.interview = {}
         self.booked = False
-        self.execs = []
 
-    def bookInterview(self, exec, date):
-        self.execs.append(exec)
-        self.meeting_time = date
+    def bookInterview(self, executive, date):
+        self.interview[date = executive]
         self.booked = True
     
     def addAvailable(self, date):
