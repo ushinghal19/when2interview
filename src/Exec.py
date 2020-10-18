@@ -18,13 +18,13 @@ class Exec:
         self.num_interviews = 0
         self.name = name
 
-    def bookInterview(self, candidate, date):
+    def book_interview(self, candidate, date):
         self.interviews[date] = candidate
         self.num_interviews += 1
-    
-    def addAvailable(self, date):
+
+    def add_available(self, date):
         self.available_times.append(date)
 
 
-    
+
 

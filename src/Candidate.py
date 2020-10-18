@@ -17,13 +17,13 @@ class Candidate:
         self.interview = {}
         self.booked = False
 
-    def bookInterview(self, executive, date):
+    def book_interview(self, executive, date):
         self.interview[date] = executive.name
         self.booked = True
-    
-    def addAvailable(self, date):
+
+    def add_available(self, date):
         self.available_times.append(date)
 
 
-    
+
 
