@@ -48,6 +48,8 @@ def scrape_data(path, website, keyword):
 
     # Opening the site
     driver.get(link)
+    driver.minimize_window()
+
 
     # Waiting for the site to load
     time.sleep(3)
@@ -131,6 +133,6 @@ def scrape_data(path, website, keyword):
             times[available_time].add_candidate(candidates[candidate])
 
     arrange_interviews(times)
-
+    driver.close()
     for candidate in candidates:
         print(candidates[candidate].name + " " + str(candidates[candidate].interview))
