@@ -11,90 +11,93 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
-#Setting up the webdriver
-driver = webdriver.Chrome(os.getenv('CHROME_DRIVER_PATH'))
+def scrapeData(path, website, keyword):
+    """ Scrapes the data required from the when2meet file and returns a list of TimeBox objects """
 
-#Setting up actions
-actions = ActionChains(driver)
+    #Setting up the webdriver
+    driver = webdriver.Chrome(path)
 
-#Getting the when2meet link
-link = "https://www.when2meet.com/?10117137-FRjsY"
+    #Setting up actions
+    actions = ActionChains(driver)
 
-#Opening the site
-driver.get(link)
+    #Getting the when2meet link
+    link = link
 
-#Waiting for the site to load
-time.sleep(3)
+    #Opening the site
+    driver.get(link)
 
-# Finding the table of data
-grid = driver.find_element_by_id("GroupGridSlots")
+    #Waiting for the site to load
+    time.sleep(3)
 
-# Finding the rows of the table
-list_of_rows = grid.find_elements_by_xpath(".//div[@style='font-size:0px;vertical-align:top;']")
+    # Finding the table of data
+    grid = driver.find_element_by_id("GroupGridSlots")
 
-# Storing the data in a Python List
-python_grid = []
+    # Finding the rows of the table
+    list_of_rows = grid.find_elements_by_xpath(".//div[@style='font-size:0px;vertical-align:top;']")
 
-for row in list_of_rows:
-    boxes = []
-    boxes.extend(row.find_elements_by_tag_name("div"))
-    python_grid.append(boxes)
+    # Storing the data in a Python List
+    python_grid = []
 
-# Dictionary of exec objects
-execs = {}
+    for row in list_of_rows:
+        boxes = []
+        boxes.extend(row.find_elements_by_tag_name("div"))
+        python_grid.append(boxes)
 
-# Dictionary of candidate objects
-candidates = {}
+    # Dictionary of exec objects
+    execs = {}
 
-# List of time boxes
-times = OrderedDict()
+    # Dictionary of candidate objects
+    candidates = {}
 
-for row in python_grid:
-    for box in row:
-        # Moves to box
-        box.click()
+    # List of time boxes
+    times = OrderedDict()
 
-        # Finds the date element
-        date = driver.find_element_by_id("AvailableDate")
+    for row in python_grid:
+        for box in row:
+            # Moves to box
+            box.click()
 
-        # Finds the available element
-        available = driver.find_element_by_id("Available")
+            # Finds the date element
+            date = driver.find_element_by_id("AvailableDate")
 
-        # Finds the unavailable element
-        unavailable = driver.find_element_by_id("Unavailable")
+            # Finds the available element
+            available = driver.find_element_by_id("Available")
 
-        # Makes the available into a list
-        available = available.text.split("\n")
+            # Finds the unavailable element
+            unavailable = driver.find_element_by_id("Unavailable")
 
-        #Makes the unavailable into a list
-        unavailable = unavailable.text.split("\n")
+            # Makes the available into a list
+            available = available.text.split("\n")
 
-        # Local list of execs / candidates
-        local_list_of_execs = []
-        local_list_of_candidates = []
+            #Makes the unavailable into a list
+            unavailable = unavailable.text.split("\n")
 
-        #Creating global / local lists of executives and candidates
-        for person in available:
-            if "CSSU" in person:
-                if person in execs:
-                    execs[person].addAvailable(parser.parse(date.text))
+            # Local list of execs / candidates
+            local_list_of_execs = []
+            local_list_of_candidates = []
+
+            #Creating global / local lists of executives and candidates
+            for person in available:
+                if keyword in person:
+                    if person in execs:
+                        execs[person].addAvailable(parser.parse(date.text))
+                    else:
+                        executive = Exec(person)
+                        executive.addAvailable(parser.parse(date.text))
+                        execs[person] = executive
+
                 else:
-                    executive = Exec(person)
-                    executive.addAvailable(parser.parse(date.text))
-                    execs[person] = executive
+                    if person in candidates:
+                        candidates[person].addAvailable(parser.parse(date.text))
+                    else:
+                        candidate = Candidate(person)
+                        candidate.addAvailable(parser.parse(date.text))
+                        candidates[person] = candidate
 
-            else:
-                if person in candidates:
-                    candidates[person].addAvailable(parser.parse(date.text))
-                else:
-                    candidate = Candidate(person)
-                    candidate.addAvailable(parser.parse(date.text))
-                    candidates[person] = candidate
-
-        timebox = TimeBox(parser.parse(date.text))
-        times[parser.parse(date.text)] = timebox
-
-def addPeopleToTimeBox(times, execs, candidates):
+            timebox = TimeBox(parser.parse(date.text))
+            times[parser.parse(date.text)] = timebox
+    
+    # Adding the executive / candidate objects to the timeboxes.
     for executive in execs:
         for available_time in execs[executive].available_times:
             times[available_time].addExec(execs[executive])
@@ -103,7 +106,7 @@ def addPeopleToTimeBox(times, execs, candidates):
         for available_time in candidates[candidate].available_times:
             times[available_time].addCandidate(candidates[candidate])
 
-addPeopleToTimeBox(times, execs, candidates)
+# addPeopleToTimeBox(times, execs, candidates)
 
 def bookInterview(candidate, execs, date):
     minimum = 500
