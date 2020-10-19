@@ -48,7 +48,7 @@ def scrape_data(path, website, keyword):
 
     # Opening the site
     driver.get(link)
-    driver.minimize_window()
+    #driver.minimize_window()
 
 
     # Waiting for the site to load
