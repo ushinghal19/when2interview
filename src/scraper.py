@@ -7,9 +7,9 @@ from selenium.webdriver import ActionChains
 from TimeBox import TimeBox
 from Candidate import Candidate
 from Exec import Exec
-from dotenv import load_dotenv
-import os
-load_dotenv()
+# from dotenv import load_dotenv
+# import os
+# load_dotenv()
 
 def book_interview(candidate, execs, date):
     """ Books an interview between a candidate and exec at a certain date """
