@@ -1,8 +1,6 @@
 from datetime import datetime
 from dateutil import parser
 from typing import *
-# from Exec import Exec
-# from Candidate import Candidate
 
 class TimeBox:
     """ Represents one box of time in the when2meet"""
