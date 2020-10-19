@@ -1,4 +1,4 @@
 chromedriver.exe
 .env
 .pyc
-**/__pycache__
+**/src/__pycache__
