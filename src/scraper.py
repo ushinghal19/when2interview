@@ -9,19 +9,44 @@ from Candidate import Candidate
 from Exec import Exec
 from dotenv import load_dotenv
 import os
-
 load_dotenv()
 
+def book_interview(candidate, execs, date):
+    """ Books an interview between a candidate and exec at a certain date """
 
-def main():
+    minimum = 500
+    executive = None
+    for executives in execs:
+        if executives.num_interviews < minimum:
+            executive = executives
+    candidate.book_interview(executive, date)
+    executive.book_interview(candidate, date)
+
+
+def arrange_interviews(times):
+    """ Arranges interviews between candidates and execs """
+    for time in times:
+        timebox = times[time]
+        if timebox.get_num_candidates() == 0 or timebox.get_num_execs() == 0:
+            continue
+        else:
+            for candidate in timebox.get_candidates():
+                if candidate.booked == False:
+                    book_interview(candidate, timebox.get_execs(), timebox.date)
+                else:
+                    continue
+
+def scrape_data(path, website, keyword):
+    """ Scrapes data from the when2meet link, and returns a list of TimeBox objects """
+
     # Setting up the webdriver
-    driver = webdriver.Chrome(os.getenv('CHROME_DRIVER_PATH'))
+    driver = webdriver.Chrome(path)
 
     # Setting up actions
     actions = ActionChains(driver)
 
     # Getting the when2meet link
-    link = "https://www.when2meet.com/?10117137-FRjsY"
+    link = website
 
     # Opening the site
     driver.get(link)
@@ -79,7 +104,7 @@ def main():
 
             # Creating global / local lists of executives and candidates
             for person in available:
-                if "CSSU" in person:
+                if keyword in person:
                     if person in execs:
                         execs[person].add_available(parser.parse(date.text))
                     else:
@@ -98,15 +123,7 @@ def main():
 
             timebox = TimeBox(parser.parse(date.text))
             times[parser.parse(date.text)] = timebox
-    add_people_to_timebox(times, execs, candidates)
-    arrange_interviews(times)
 
-    for candidate in candidates:
-        print(candidates[candidate].name + " " + str(
-            candidates[candidate].interview))
-
-
-def add_people_to_timebox(times, execs, candidates):
     for executive in execs:
         for available_time in execs[executive].available_times:
             times[available_time].add_exec(execs[executive])
@@ -115,29 +132,7 @@ def add_people_to_timebox(times, execs, candidates):
         for available_time in candidates[candidate].available_times:
             times[available_time].add_candidate(candidates[candidate])
 
+    arrange_interviews(times)
 
-def book_interview(candidate, execs, date):
-    minimum = 500
-    executive = None
-    for executives in execs:
-        if executives.num_interviews < minimum:
-            executive = executives
-    candidate.book_interview(executive, date)
-    executive.book_interview(candidate, date)
-
-
-def arrange_interviews(times):
-    for time in times:
-        timebox = times[time]
-        if timebox.get_num_candidates() == 0 or timebox.get_num_execs() == 0:
-            continue
-        else:
-            for candidate in timebox.get_candidates():
-                if candidate.booked == False:
-                    book_interview(candidate, timebox.get_execs(), timebox.date)
-                else:
-                    continue
-
-
-if __name__ == "__main__":
-    main()
+    for candidate in candidates:
+        print(candidates[candidate].name + " " + str(candidates[candidate].interview))
