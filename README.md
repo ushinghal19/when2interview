@@ -11,5 +11,8 @@ Make sure you have all the requirements downloaded. Create a ".env" text file, w
 
 Then run the "main.py" file in the source folder. Input your when2meet link, and the keyword that distinguishes your interviewers from the candidates, and watch the algorithm at work!  
 
-# optimization  
+## Note:  
+Do not hover your mouse over the when2meet grid as the program is running, it will cause an error.  
+
+## Optimization  
 This project is currently not optimized - it arranges interviews on a "most available" / "first-come first-serve" basis. In the future, we plan to implement it so that it arranges a roughly equal amount of interviews for each executive.
