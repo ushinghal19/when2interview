@@ -98,41 +98,42 @@ def scrape_data(path, website, keyword):
             # Makes the unavailable into a list
             unavailable = unavailable.text.split("\n")
 
-            # Local list of execs / candidates
-            local_list_of_execs = []
-            local_list_of_candidates = []
-
-            # Creating global / local lists of executives and candidates
             for person in available:
                 if keyword in person:
                     if person in execs:
-                        execs[person].add_available(parser.parse(date.text))
+                        execs[person].add_available(parser.parse(date.text))     # Adding this time as available to the exec's list of available times
                     else:
-                        executive = Exec(person)
-                        executive.add_available(parser.parse(date.text))
-                        execs[person] = executive
+                        executive = Exec(person)                                 # Creating a new exec object
+                        executive.add_available(parser.parse(date.text))         # Adding this as an available time
+                        execs[person] = executive                                # Storing them in the dictionary
 
                 else:
-                    if person in candidates:
-                        candidates[person].add_available(
-                            parser.parse(date.text))
+                    if person in candidates:                            
+                        candidates[person].add_available(parser.parse(date.text)) # Adding this time as available to the candidate's list of available times                   
+
                     else:
-                        candidate = Candidate(person)
-                        candidate.add_available(parser.parse(date.text))
-                        candidates[person] = candidate
+                        candidate = Candidate(person)                             # Creating a new candidate object
+                        candidate.add_available(parser.parse(date.text))          # Adding this as an available time
+                        candidates[person] = candidate                            # Storing them in the dictionary
 
-            timebox = TimeBox(parser.parse(date.text))
-            times[parser.parse(date.text)] = timebox
+            timebox = TimeBox(parser.parse(date.text))                            # Creating a new timebox object with given date
+            times[parser.parse(date.text)] = timebox                              # Storing the timebox in the dictionary with the date as the key
 
-    for executive in execs:
+    for executive in execs:                                                       # Storing the exec objects in the timebox objects
         for available_time in execs[executive].available_times:
             times[available_time].add_exec(execs[executive])
 
-    for candidate in candidates:
+    for candidate in candidates:                                                  # Storing the candidate objects in the timebox objects
         for available_time in candidates[candidate].available_times:
             times[available_time].add_candidate(candidates[candidate])
 
+
+    # Arranging the interviews
     arrange_interviews(times)
+
+    # Minimizing the chrome window
     driver.close()
+
+    # Printing the results
     for candidate in candidates:
         print(candidates[candidate].name + " " + str(candidates[candidate].interview))
